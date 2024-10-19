@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import { Upload } from 'lucide-react';
 
-const RandomItemGenerator: React.FC = () => {
+interface RandomItemGeneratorProps {
+  darkMode: boolean;
+}
+
+const RandomItemGenerator: React.FC<RandomItemGeneratorProps> = ({ darkMode }) => {
   const [items, setItems] = useState<string[]>([]);
   const [result, setResult] = useState<string | null>(null);
 
@@ -31,20 +35,24 @@ const RandomItemGenerator: React.FC = () => {
   return (
     <div className="space-y-6">
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
-          Upload Item List (TXT)
+        <label className={`block text-sm font-medium mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>
+          上传项目列表（TXT）
         </label>
         <div className="flex items-center justify-center w-full">
           <label
             htmlFor="dropzone-file"
-            className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-all duration-300 ease-in-out"
+            className={`flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer transition-all duration-300 ease-in-out ${
+              darkMode
+                ? 'border-gray-600 bg-gray-700 hover:bg-gray-600'
+                : 'border-gray-300 bg-gray-50 hover:bg-gray-100'
+            }`}
           >
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
-              <Upload className="w-10 h-10 mb-3 text-gray-400" />
-              <p className="mb-2 text-sm text-gray-500">
-                <span className="font-semibold">Click to upload</span> or drag and drop
+              <Upload className={`w-10 h-10 mb-3 ${darkMode ? 'text-gray-400' : 'text-gray-500'}`} />
+              <p className={`mb-2 text-sm ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>
+                <span className="font-semibold">点击上传</span> 或拖放文件
               </p>
-              <p className="text-xs text-gray-500">TXT file with items (one per line)</p>
+              <p className={`text-xs ${darkMode ? 'text-gray-400' : 'text-gray-500'}`}>TXT 文件（每行一个项目）</p>
             </div>
             <input
               id="dropzone-file"
@@ -59,15 +67,19 @@ const RandomItemGenerator: React.FC = () => {
       <button
         onClick={generateRandomItem}
         disabled={items.length === 0}
-        className="w-full bg-blue-500 text-white py-3 px-4 rounded-md hover:bg-blue-600 transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:bg-gray-300 disabled:cursor-not-allowed"
+        className={`w-full text-white py-3 px-4 rounded-md transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+          darkMode
+            ? 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500 disabled:bg-gray-700 disabled:text-gray-500'
+            : 'bg-blue-500 hover:bg-blue-600 focus:ring-blue-400 disabled:bg-gray-300 disabled:text-gray-500'
+        } disabled:cursor-not-allowed`}
       >
-        Generate Random Item
+        生成随机项目
       </button>
       <div className="h-32 flex items-center justify-center">
         {result && (
           <div className="text-center animate-fade-in">
-            <p className="text-lg font-semibold text-gray-700 mb-2">Result:</p>
-            <p className="text-4xl font-bold text-blue-600 animate-item break-all">{result}</p>
+            <p className={`text-lg font-semibold mb-2 ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>结果：</p>
+            <p className="text-4xl font-bold text-blue-500 animate-item break-all">{result}</p>
           </div>
         )}
       </div>
